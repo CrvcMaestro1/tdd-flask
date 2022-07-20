@@ -1,0 +1,11 @@
+FROM python:3
+
+ENV PYTHONUNBUFFERED 1
+
+RUN mkdir /opt/code
+RUN mkdir /opt/requirements
+WORKDIR /opt/code
+
+ADD requirements /opt/requirements
+RUN python -m pip install --upgrade pip wheel
+RUN pip install -r /opt/requirements/development.txt
