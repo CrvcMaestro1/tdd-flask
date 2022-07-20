@@ -22,3 +22,12 @@ python manage.py compose down
 ```
 python manage.py compose exec web bash
 ```
+### Database initialisation 
+```
+python manage.py flask db init
+```
+### Database migrate and upgrade 
+```
+python manage.py flask db migrate
+python manage.py flask db upgrade
+```
