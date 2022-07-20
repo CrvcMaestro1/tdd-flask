@@ -130,6 +130,13 @@ def create_initial_db():
         print(f"The database {os.getenv('APPLICATION_DB')} already exists and will not be recreated")
 
 
+def create_db(name):
+    try:
+        run_sql([f"CREATE DATABASE {name}"])
+    except psycopg2.errors.DuplicateDatabase:
+        print(f"The database {os.getenv('APPLICATION_DB')} already exists and will not be recreated")
+
+
 @cli.command()
 @click.argument("filenames", nargs=-1)
 def test(filenames):
@@ -142,10 +149,7 @@ def test(filenames):
     cmdline = docker_compose_cmdline("logs db")
     wait_for_logs(cmdline, "ready to accept connections")
 
-    run_sql([
-        f"DROP DATABASE IF EXISTS {os.getenv('APPLICATION_DB')}",
-        f"CREATE DATABASE {os.getenv('APPLICATION_DB')}"
-    ])
+    create_db(os.getenv('APPLICATION_DB'))
 
     cmdline = ["pytest", "-svv", "--cov=application", "--cov-report=term-missing"]
     cmdline.extend(filenames)
@@ -190,10 +194,10 @@ def up(name):
 
     cmdline = docker_compose_cmdline("port db 5432")
     out = subprocess.check_output(cmdline)
-    port = out.decode("utf-8").replace("\n", "").split(":")[1]
+    port = out.decode("utf-8").replace("\n\r", "").split(":")[1]
     os.environ["POSTGRES_PORT"] = port
 
-    run_sql([f"CREATE DATABASE {os.getenv('APPLICATION_DB')}"])
+    create_db(os.getenv('APPLICATION_DB'))
 
     scenario_module = f"scenarios.{name}"
     scenario_file = os.path.join("scenarios", f"{name}.py")
