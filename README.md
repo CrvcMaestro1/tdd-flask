@@ -27,6 +27,10 @@ python manage.py compose down
 ```
 python manage.py compose exec web bash
 ```
+### Create database (in web bash)
+```
+python manage.py create-initial-db
+```
 ### Database initialisation (in web bash)
 ```
 python manage.py flask db init
