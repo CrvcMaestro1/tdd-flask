@@ -25,7 +25,7 @@
   },
   {
     "name": "POSTGRES_PASSWORD",
-    "value": "postgres"
+    "value": "admin"
   },
   {
     "name": "APPLICATION_DB",

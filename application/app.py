@@ -1,5 +1,7 @@
 from flask import Flask
 
+from application.models import User
+
 
 def create_app(config_name):
     app = Flask(__name__)
@@ -16,5 +18,10 @@ def create_app(config_name):
     @app.route("/")
     def hello_world():
         return "Hello, World! Christian is here"
+
+    @app.route("/users")
+    def users():
+        num_users = User.query.count()
+        return f"Number of users: {num_users}"
 
     return app

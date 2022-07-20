@@ -141,7 +141,10 @@ def test(filenames):
     cmdline = docker_compose_cmdline("logs db")
     wait_for_logs(cmdline, "ready to accept connections")
 
-    run_sql([f"CREATE DATABASE {os.getenv('APPLICATION_DB')}"])
+    run_sql([
+        f"DROP DATABASE IF EXISTS {os.getenv('APPLICATION_DB')}",
+        f"CREATE DATABASE {os.getenv('APPLICATION_DB')}"
+    ])
 
     cmdline = ["pytest", "-svv", "--cov=application", "--cov-report=term-missing"]
     cmdline.extend(filenames)

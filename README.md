@@ -22,12 +22,16 @@ python manage.py compose down
 ```
 python manage.py compose exec web bash
 ```
-### Database initialisation 
+### Database initialisation (in web bash)
 ```
 python manage.py flask db init
 ```
-### Database migrate and upgrade 
+### Database migrate and upgrade (in web bash)
 ```
 python manage.py flask db migrate
 python manage.py flask db upgrade
+```
+### Explore database 
+```
+python manage.py compose exec db psql -U postgres
 ```
